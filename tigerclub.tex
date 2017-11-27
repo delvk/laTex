@@ -172,19 +172,19 @@ Một hệ thống hàng đợi gồm các thành phần cơ bản sau:
 Hàng đợi M/M/1 là hàng đợi có số tiến trình vào hệ thống (A) được phân bố theo phân phối Poisson, thời gian phục vụ (S) tuân theo phân phối mũ và chỉ có một kênh phục vụ. 
 \par
 Tương tự như hàng đợi M/M/1, hàng đợi M/D/1 có số tiến trình vào hệ thống (A) tuân theo phân phối Poisson, có một kênh phục vụ, điểm khác biệt chính là hàng đợi M/D/1 có thời gian phục vụ là Deterministic, tức là thời gian phục vụ được cố định là một hàng số.
-\par
+\par\noindent
 Hai hàng đợi nêu trên cũng được sử dụng để mô phỏng và đánh giá trong báo cáo này.
 \subsection{Ký hiệu}
 \begin{itemize}
 \item[]  \textit{$\lambda$:} mean rate of arrival. It is equal to 1/E[Inter-arrival-Time] where E[.] denotes the expectation operator
 \item[] \textit{$\mu$:} Thời gian phục vụ trung bình (mean service rate) $=1/E_{service time}$. 
-\item[] \textit{$\rho = \dfrac{\lambda}{\mu}$} với hàng đợi 1 server thì $\rho$ là tải của hệ thống, tức là xác xuất server đang phục vụ ít nhất một người.  
+\item[] \textit{$\rho = \dfrac{\lambda}{\mu}$:} với hàng đợi 1 server thì $\rho$ là tải của hệ thống, tức là xác xuất server đang phục vụ ít nhất một người.  
 \item[] \textit{n:} Số người/công việc trong hệ thống. 
 \item[] \textit{r:} Thời gian đáp ứng.
-\item[] \textit{$T$} Thời gian đợi trong hệ thống (Mean wait in system).
-\item[] \textit{$T_q$} Thời gian đợi trong hệ thống (Mean wait in queue).
-\item[] \textit{$N$} Số khách trong hệ thống (Number of clients in system).
-\item[] \textit{$N_q$} Số khách trong hàng đợi (Number of clients queue).
+\item[] \textit{$T$:} Thời gian đợi trong hệ thống (Mean wait in system).
+\item[] \textit{$T_q$:} Thời gian đợi trong hệ thống (Mean wait in queue).
+\item[] \textit{$N$:} Số khách trong hệ thống (Number of clients in system).
+\item[] \textit{$N_q$:} Số khách trong hàng đợi (Number of clients queue).
 \end{itemize}
 \subsection{Công thức tính}
 \subsubsection{Hàng đợi m/m/1}
