@@ -1,0 +1,374 @@
+\documentclass[a4paper]{article}
+\usepackage{thuvien}
+\usepackage{breakurl}
+\usepackage{textcomp}
+
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=1.9}
+%\usepackage[english,vietnam]{babel}
+%\usepackage[utf8]{inputenc}
+
+%\usepackage[utf8]{inputenc}
+%\usepackage[francais]{babel}
+\usepackage{a4wide,amssymb,epsfig,latexsym,multicol,array,hhline,fancyhdr}
+
+\hypersetup{urlcolor=blue,linkcolor=black,citecolor=black,colorlinks=true} 
+%\usepackage{pstcol} 								% PSTricks with the standard color package
+\setlength{\parskip}{1em}
+\newtheorem{theorem}{{\bf Định lý}}
+\newtheorem{property}{{\bf Tính chất}}
+\newtheorem{proposition}{{\bf Mệnh đề}}
+\newtheorem{corollary}[proposition]{{\bf Hệ quả}}
+\newtheorem{lemma}[proposition]{{\bf Bổ đề}}
+
+\newcommand{\monhoc}{Đánh giá hiệu năng hệ thống}
+\newcommand{\mamon}{CO3007}
+%\usepackage{fancyhdr}
+\setlength{\headheight}{40pt}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[L]{
+ \begin{tabular}{rl}
+    \begin{picture}(25,15)(0,0)
+    \put(0,-8){\includegraphics[width=8mm, height=8mm]{./images/bklogo.png}}
+    %\put(0,-8){\epsfig{width=10mm,figure=hcmut.eps}}
+   \end{picture}&
+	%\includegraphics[width=8mm, height=8mm]{hcmut.png} & %
+	\begin{tabular}{l}
+		\textbf{\bf \ttfamily Trường Đại Học Bách Khoa Tp.Hồ Chí Minh}\\
+		\textbf{\bf \ttfamily Khoa Khoa Học và Kỹ Thuật Máy Tính}
+	\end{tabular} 	
+ \end{tabular}
+}
+\fancyhead[R]{
+	\begin{tabular}{l}
+		\tiny \bf \\
+		\tiny \bf 
+	\end{tabular}  }
+\fancyfoot{} % clear all footer fields
+\fancyfoot[L]{\scriptsize \ttfamily Bài tập lớn môn {\monhoc} - Niên khóa 2017-2018}
+\fancyfoot[R]{\scriptsize \ttfamily Trang {\thepage}/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+
+%%%
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\makeatletter
+\newcounter {subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection .\@alph\c@subsubsubsection}
+\newcommand\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\newcommand*\l@subsubsubsection{\@dottedtocline{3}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsectionmark}[1]{}
+\makeatother
+
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH \\
+TRƯỜNG ĐẠI HỌC BÁCH KHOA \\
+KHOA KHOA HỌC - KỸ THUẬT MÁY TÍNH 
+\end{center}
+
+\vspace{1cm}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=3cm]{./images/bklogo.png}
+\end{center}
+\end{figure}
+
+\vspace{1cm}
+
+
+\begin{center}
+\begin{tabular}{c}
+\multicolumn{1}{l}{\textbf{{\Large \monhoc(CO2029)}}}\\
+~~\\
+\hline
+\\
+\multicolumn{1}{l}{\textbf{{\Large Đề tài}}}\\
+\\
+\textbf{{\Huge So sánh hiệu năng hai hệ thống}}\\
+\textbf{{\Huge hàng đợi M/M/1 và M/D/1}}\\
+\\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{3cm}
+
+\begin{table}[h]
+\begin{tabular}{rrl}
+\vspace*{1em}
+\hspace{5 cm} & GVHD: & Lê Hồng Trang\\
+& Sinh viên: & Nguyễn Bảo Khương - 1511632 \\
+& & Phạm Thị Ngọc Mỹ - 1512049\\
+& & Đặng Hoàng Minh Trí - 1513648\\
+
+\end{tabular}
+\end{table}
+\vspace*{\fill}
+\begin{center}
+{\footnotesize TP. Hồ Chí Minh, \today}
+\end{center}
+\end{titlepage}
+
+
+\thispagestyle{empty}
+\tableofcontents
+\cleardoublepage
+
+\par \noindent
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Giới thiệu đề tài}
+\subsection{Mục tiêu đề tài}
+\textbf{“So sánh hiệu năng hai hàng đợi đơn $M/M/1$ và $M/D/1$”}
+\par \noindent
+Mục tiêu đề tài là so sánh hiệu năng giữa hai hệ thống hàng đợi đơn $M/M/1$ và $M/D/1$ với các thông số như số yêu cầu trung bình nằm trong hệ thống $N$, số yêu cầu trung bình nằm trong hàng đợi, thời gian trung bình một yêu cầu nằm trong hệ thống $T$ cũng như nằm trong hàng đợi $T_q$.
+\subsection{Công cụ sử dụng}
+\begin{itemize}
+\item Matlab: Hỗ trợ vẽ đồ thị
+\item Công cụ mô phỏng hàng đợi online tại \url{https://www.stat.auckland.ac.nz/~stats255/qsim/qsim.html}
+\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Cơ sở lý thuyết}
+\subsection{Một số kiến thức chuẩn bị}
+\subsubsection{Biến ngẫu nhiên}
+Biến ngẫu nhiên là đại lượng ngẫu nhiên, được hiểu là biến nhận giá trị phụ thuộc vào kết quả của phép thử (phép đo, quan sát, thí nghiệm) mà không thể đoán trước được.
+\par \noindent
+Biến ngẫu nhiên chia làm hai loại: rời rạc và liên tục. Biến rời rạc là biến ngẫu nhiên nhận các giá trị từ một tập hữu hạn hoặc đếm được. Biến liên tục là biến ngẫu nhiên nhận giá trị từ một tập con liên tục trên tập số thực
+\subsection{Một số phân phối xác xuất thường gặp}
+\begin{itemize}
+\item Phân phối Poisson: Một biến ngẫu nhiên $X$ được gọi là có phân bố Poisson với tham số $\lambda$, nếu các giá trị của nó là các số nguyên không âm .Với mọi k thuộc $\mathbb{Z^+}$ ta có:
+\begin{equation*}
+P(X=k)=\dfrac{{\lambda}^{k}}{k!}e^{-\lambda}
+\end{equation*}
+\subitem Biến ngẫu nhiên $X$ có phân phối Poisson với tham số $\lambda$ dùng để đếm số lần xuất hiện của đối tượng quan sát trong một khoảng thời gian đã được xác định trước. Giá trị trung bình của X là $E(X) = \lambda$.
+\item Phân phối mũ: Biến ngẫu nhiên $X$ gọi là có phân phối mũ với tham số $\mu$ nếu $X$ là biến ngẫu nhiên liên tục, nhận giá trị không âm với hàm mật độ xác suất là $f(x)={\mu}e^{-{\mu}x}$
+\subitem Nếu như biến ngẫu nhiên có phân phối Poisson dùng để đếm số lần xuất hiện của đối tượng trong một khoảng thời gian đã được xác định trước thì biến ngẫu nhiên có phân phối mũ dùng để xét khoảng thời gian xuất hiện giữa hai lần xuất hiện liên tiếp của đối tượng. Giá trị trung bình của biến ngẫu nhiên $X$ có phân phối mũ với tham số $\mu$ là $E(X)=\dfrac{1}{\mu}$
+\end{itemize}
+\subsection{Hệ thống hàng đợi}
+Lý thuyết hàng đợi là một phần của xác suất thống kê, được ứng dụng trong nhiều lĩnh vực như: hệ thống bán vé, thanh toán trong siêu thị, làm các thủ tục tại sân bay,… Lý thuyết hàng đợi tập trung trả lời các câu hỏi như: trung bình thời gian đợi trong hàng đợi, trung bình thời gian phản hồi của hệ thống (thời gian đợi trong hàng đợi cộng thời gian phục vụ), nghĩa là sự sử dụng các thiết bị phục vụ, phân phối số lượng khách hàng trong hàng đợi, phân phối khách hàng trong hệ thống.\par
+Một hệ thống hàng đợi gồm các thành phần cơ bản sau:
+\begin{itemize}
+\item A: Tiến trình vào hệ thống (Arrival process).
+\item S: Phân phối thời gian phục vụ (Service time distribution).
+\item m: Số các kênh phục vụ (Number of servers).
+\item B: Khả năng của hệ thống (System capacity).
+\item K: Quy mô (kích thước) khách hàng (Population size).
+\item SD: Nguyên tắc phục vụ (Service discipline).
+\end{itemize}	
+
+
+\par 
+Hàng đợi M/M/1 là hàng đợi có số tiến trình vào hệ thống (A) được phân bố theo phân phối Poisson, thời gian phục vụ (S) tuân theo phân phối mũ và chỉ có một kênh phục vụ. 
+\par
+Tương tự như hàng đợi M/M/1, hàng đợi M/D/1 có số tiến trình vào hệ thống (A) tuân theo phân phối Poisson, có một kênh phục vụ, điểm khác biệt chính là hàng đợi M/D/1 có thời gian phục vụ là Deterministic, tức là thời gian phục vụ được cố định là một hàng số.
+\par
+Hai hàng đợi nêu trên cũng được sử dụng để mô phỏng và đánh giá trong báo cáo này.
+\subsection{Ký hiệu}
+\begin{itemize}
+\item[]  \textit{$\lambda$:} mean rate of arrival. It is equal to 1/E[Inter-arrival-Time] where E[.] denotes the expectation operator
+\item[] \textit{$\mu$:} Thời gian phục vụ trung bình (mean service rate) $=1/E_{service time}$. 
+\item[] \textit{$\rho = \dfrac{\lambda}{\mu}$} với hàng đợi 1 server thì $\rho$ là tải của hệ thống, tức là xác xuất server đang phục vụ ít nhất một người.  
+\item[] \textit{n:} Số người/công việc trong hệ thống. 
+\item[] \textit{r:} Thời gian đáp ứng.
+\item[] \textit{$T$} Thời gian đợi trong hệ thống (Mean wait in system).
+\item[] \textit{$T_q$} Thời gian đợi trong hệ thống (Mean wait in queue).
+\item[] \textit{$N$} Số khách trong hệ thống (Number of clients in system).
+\item[] \textit{$N_q$} Số khách trong hàng đợi (Number of clients queue).
+\end{itemize}
+\subsection{Công thức tính}
+\subsubsection{Hàng đợi m/m/1}
+\begin{itemize}
+\item Tải hệ thống: $\rho = \dfrac{\lambda}{\mu}$
+\item Số yêu cầu trung bình trong hệ thống $N=\dfrac{\rho}{1-\rho}$
+\item Số yêu cầu trung bình trong hàng đợi $N_q=\dfrac{\rho^2}{1-\rho}$
+\item Thời gian đợi trung bình trong hàng đợi $T_q=\dfrac{1}{\lambda}.N_q$
+\item Thời gian đợi trung bình trong hệ thống $T=\dfrac{1}{\lambda}.N$
+\end{itemize}
+\subsubsection{Hàng đợi m/d/1}
+\begin{itemize}
+\item Tải hệ thống: $\rho = \dfrac{\lambda}{\mu}$
+\item Số yêu cầu trung bình trong hệ thống $N=\dfrac{\rho(2-\rho)}{2(1-\rho)}$
+\item Số yêu cầu trung bình trong hàng đợi $N_q=N-\rho$
+\item Thời gian đợi trung bình trong hàng đợi $T_q=\dfrac{1}{\lambda}.N_q$
+\item Thời gian đợi trung bình trong hệ thống $T=\dfrac{1}{\lambda}.N$
+\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Hệ thống mô phỏng và thông số đánh giá}
+\subsection{Metrics}
+Thời gian phản hồi của hệ thống bao gồm: 
+\begin{itemize}
+\item Thời gian chờ: là thời gian từ lúc vào hàng đợi cho đến khi được phục vụ.
+\item Thời gian phục vụ: là thời gian từ lúc bắt đầu được phục vụ đến khi việc phục vụ kết thúc.
+\end{itemize}
+\par \noindent
+Số clients có trong hệ thống bao gồm:
+\begin{itemize}
+\item Số clients đang chờ được phục vụ.
+\item Số clients đang được phục vụ.
+\end{itemize}
+\subsection{Workloads}
+Thực hiện mô phỏng hai hàng đợi M/M/1 và M/D/1 với số lượng dữ liệu là 100. Việc mô phỏng được thực hiện với cùng một bộ số để có thể so sánh giữa hai hàng đợi.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Quá trình thực hiện}
+\subsection{Tính toán lý thuyết}
+\subsubsection*{Hàng đợi M/M/1}
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{./images/tigerclubImages/queue.png}
+\end{figure}	
+Với thông số hệ thống:
+\begin{itemize}
+\item Arrival rate: 0.25
+\item Service rate per server: 1
+\end{itemize}
+Các kết quả tính toán\\
+Tải của hệ thống: $\rho = 0.25/1 = 0.25$\\
+Số yêu cầu trung bình trong hàng đợi: $N_q=1/12$\\
+Số yêu cầu trung bình trong hệ thống: $N=1/3$\\
+Thời gian trung bình một yêu cầu phải đợi trong hàng đợi: $T_q= 1/3$\\
+Thời gian trung bình một yêu cầu phải đợi trong hệ thống: $T=4/3$
+
+\subsubsection*{Hàng đợi M/D/1}
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{./images/tigerclubImages/queue2.png}
+\end{figure}	
+Với thông số hệ thống:
+\begin{itemize}
+\item Arrival rate: 0.25
+\item Service rate per server: 1
+\end{itemize}
+Các kết quả tính toán\\
+Tải của hệ thống: $\rho = 0.25/1 = 0.25$\\
+Số yêu cầu trung bình trong hàng đợi: $N_q=1/24$\\
+Số yêu cầu trung bình trong hệ thống: $N=7/24$\\
+Thời gian trung bình một yêu cầu phải đợi trong hàng đợi: $T_q= 1/6$\\
+Thời gian trung bình một yêu cầu phải đợi trong hệ thống: $T=7/6$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Thiết kế hệ thống mô phỏng}
+Thực hiện mô phỏng hai hàng đợi nêu trên 10 lần với cùng một bộ giá trị ngẫu nhiên (tạo ra bằng cách dùng cùng giá trị random seed là 42) và với điều kiện khả năng của hệ thống không bị giới hạn.
+\subsubsection*{Hàng đợi M/M/1}
+\begin{itemize}
+\item Arrival rate: 0.25
+\item Service rate per server: 1
+\end{itemize}
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{./images/tigerclubImages/sim1.png}
+\end{figure}
+\subsubsection*{Hàng đợi M/D/1}
+\begin{itemize}
+\item Arrival rate: 0.25
+\item Service rate per server: 1
+\end{itemize}
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{./images/tigerclubImages/sim2.png}
+\end{figure}
+\section{Kết quả mô phỏng và đánh giá}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.7]{./images/tigerclubImages/chart1.png}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.7]{./images/tigerclubImages/chart2.png}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.7]{./images/tigerclubImages/chart3.png}
+\end{figure}
+Dựa vào các biểu đồ trên, ta có thể thấy hàng đợi M/D/1 hiệu quả hơn hàng đợi M/M/1 về tối ưu hóa thời gian chờ và thời gian phục vụ, với thời gian phục vụ của hàng đợi M/D/1 là hằng số 1.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.7]{./images/tigerclubImages/chart4.png}
+\end{figure}
+\noindent
+Số lượng khách hàng đang chờ được phục vụ của hàng đợi M/M/1 lớn hơn hàng đợi M/D/1, có thể hiểu tương đương là trong cùng một thời gian quản lí, thời gian yêu cầu chờ càng lâu thì lượng yêu cầu được phục vụ trong thời gian đó càng giảm. Điều này làm tăng chi phí vô ích của hàng đợi M/M/1.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.7]{./images/tigerclubImages/chart5.png}
+\end{figure}
+\noindent
+Số lượng yêu cầu được phục vụ của hàng đợi M/D/1 lớn hơn so với hàng đợi M/M/1, tuy sự khác biệt không quá lớn nhưng cũng có thể chứng minh được cho kết luận có được từ số lượng yêu cầu đang chờ phục vụ.
+\subsection*{Một số kết quả liên quan}
+Khi tăng số lượng lần mô phỏng lên càng lớn, trung bình các kết quả sẽ càng gần đúng với kết quả tính toán được bằng công thức. Điều này cũng là quy luật của biến ngẫu nhiên trong xác suất.
+Dưới đây là bảng so sánh giá trị trung bình của thông số được tính toán thông qua công thức, mô phỏng 10 lần, 100 lần và 200 lần.
+\subsubsection*{Hàng đợi M/M/1}
+\begin{table}[H]
+\centering
+
+\begin{tabular}{l|l|lllllll}
+\begin{tabular}[c]{@{}l@{}}Number\\ of arrivals\end{tabular} & Arrival rate               & $T_q$ & $T_s$ & $T$   & $N_q$  & $N_q$   & $N_s$  & $N$    \\ \hline
+Lý thuyết                                                    & \multicolumn{1}{l|}{25}    & 0.25  & 0.33  & 1     & 1.3333 & 0.08333 & 0.25   & 0.333  \\
+10 lần chạy                                                  & \multicolumn{1}{l|}{24.9}  & 0.249 & 0.191 & 0.891 & 1.082  & 0.0507  & 0.222  & 0.2726 \\
+100 lần chạy                                                 & \multicolumn{1}{l|}{25.14} & 0.251 & 0.273 & 0.998 & 1.271  & 0.0741  & 0.2485 & 0.3226 \\
+200 lần chạy                                                 & \multicolumn{1}{l|}{24.98} & 0.250 & 0.304 & 1.004 & 1.308  & 0.0801  & 0.2492 & 0.3293
+\end{tabular}
+\caption{Bảng số liệu mô phỏng hàng đợi M/M/1}
+\label{table1}
+\end{table}
+\subsubsection*{Hàng đợi M/D/1}
+\begin{table}[H]
+\centering
+
+\begin{tabular}{l|l|lllllll}
+\begin{tabular}[c]{@{}l@{}}Number\\ of arrivals\end{tabular} & Arrival rate & $T_q$ & $T_s$ & $T$ & $N_q$  & $N_q$   & $N_s$  & $N$    \\ \hline
+Lý thuyết                                                    & 25           & 0.25  & 0.167 & 1   & 1.1667 & 0.04167 & 0.25   & 0.2917 \\
+10 lần chạy                                                  & 24.9         & 0.249 & 0.138 & 1   & 1.138  & 0.0353  & 0.2467 & 0.2821 \\
+100 lần chạy                                                 & 25.14        & 0.251 & 0.143 & 1   & 1.143  & 0.0382  & 0.2490 & 0.2873 \\
+200 lần chạy                                                 & 24.98        & 0.250 & 0.153 & 1   & 1.153  & 0.0401  & 0.2480 & 0.2280
+
+\end{tabular}
+\caption{Bảng số liệu mô phỏng hàng đợi M/D/1}
+\label{table2}
+\end{table}
+\subsection{Đồ thị phụ thuộc của $N,N_q,T,T_q$ vào $\rho$}
+\subsubsection*{Số yêu cầu trong hệ thống N phụ thuộc $\rho$}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.5]{./images/tigerclubImages/plot1.png}
+\end{figure}
+\subsubsection*{Số yêu cầu trong hàng đợi $N_q$ phụ thuộc $\rho$}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.5]{./images/tigerclubImages/plot2.png}
+\end{figure}
+\subsubsection*{Thời gian trung bình nằm trong hệ thống T phụ thuộc $\rho$}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.5]{./images/tigerclubImages/plot3.png}
+\end{figure}
+\subsubsection*{Thời gian trung bình nằm trong hàng đợi $T_q$ phụ thuộc $\rho$}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.5]{./images/tigerclubImages/plot4.png}
+\end{figure}
+\subsection{Nhận xét}
+Nhận xét :
+\par\noindent
+Dựa vào các đồ thị đã vẽ trên ta nhận thấy các đường màu xanh (hàng đợi M/M/1) tiến đến
+tiệm cận nhanh hơn so với các đường màu xanh (hàng đợi M/D/1). Càng gần giới hạn $\rho$ thì thời gian lưu lại hệ thống (hay hàng đợi) càng dài, số gói trung bình trong hệ thống (hay hàng đợi) càng lớn.
+\par\noindent
+Trong hàng đợi M/M/1 thời gian lưu lại hệ thống (hay hàng đợi) của 1 gói cũng như số
+gói trung bình lưu lại trong hệ thống (hay hàng đợi) bao giờ cũng lớn hơn so với trong hàng đợi M/D/1.
+\par\noindent
+Khi $\rho$ càng nhỏ (tốc độ phục vụ của server tăng) thì thời gian lưu lại trong hàng đợi của 1
+gói tiến về 0. 
+\begin{thebibliography}{80}
+
+
+\bibitem{bib1}
+K. Teknomo, {\em "Queuing Theory Tutorial - M/M/1 Queuing System"}, People.revoledu.com, 2017. [Online]. Available: \url{http://people.revoledu.com/kardi/tutorial/Queuing/MM1-Queuing-System.html.} [Accessed: 27- Nov- 2017].
+
+
+\end{thebibliography}
+\end{document}
+
